@@ -1,19 +1,25 @@
-//reinterpreter pattern
+/*
+*       reinterpreter pattern
+*       Author : Taha Nebti
+*       github : github.com/tahanebti
+*/
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
+namespace tn
+{
 class Thousand;
 class Hundred;
 class Ten;
 class One;
 
-class RNInterpreter
+class rn_interpreter
 {
   public:
-    RNInterpreter(); // ctor for client
-    RNInterpreter(int){}
+    rn_interpreter(); // ctor for client
+    rn_interpreter(int){}
     // ctor for subclasses, avoids infinite loop
     int interpret(char*); // interpret() for client
     virtual void interpret(char *input, int &total)
@@ -56,17 +62,17 @@ class RNInterpreter
     virtual char *nine(){}
     virtual int multiplier(){}
   private:
-    RNInterpreter *thousands;
-    RNInterpreter *hundreds;
-    RNInterpreter *tens;
-    RNInterpreter *ones;
+    rn_interpreter *thousands;
+    rn_interpreter *hundreds;
+    rn_interpreter *tens;
+    rn_interpreter *ones;
 };
 
-class Thousand: public RNInterpreter
+class Thousand: public rn_interpreter
 {
   public:
     // provide 1-arg ctor to avoid infinite loop in base class ctor
-    Thousand(int): RNInterpreter(1){}
+    Thousand(int): rn_interpreter(1){}
   protected:
     char one()
     {
@@ -90,10 +96,10 @@ class Thousand: public RNInterpreter
     }
 };
 
-class Hundred: public RNInterpreter
+class Hundred: public rn_interpreter
 {
   public:
-    Hundred(int): RNInterpreter(1){}
+    Hundred(int): rn_interpreter(1){}
   protected:
     char one()
     {
@@ -117,10 +123,10 @@ class Hundred: public RNInterpreter
     }
 };
 
-class Ten: public RNInterpreter
+class Ten: public rn_interpreter
 {
   public:
-    Ten(int): RNInterpreter(1){}
+    Ten(int): rn_interpreter(1){}
   protected:
     char one()
     {
@@ -144,10 +150,10 @@ class Ten: public RNInterpreter
     }
 };
 
-class One: public RNInterpreter
+class One: public rn_interpreter
 {
   public:
-    One(int): RNInterpreter(1){}
+    One(int): rn_interpreter(1){}
   protected:
     char one()
     {
@@ -171,7 +177,7 @@ class One: public RNInterpreter
     }
 };
 
-RNInterpreter::RNInterpreter()
+rn_interpreter::rn_interpreter()
 {
   // use 1-arg ctor to avoid infinite loop
   thousands = new Thousand(1);
@@ -180,7 +186,7 @@ RNInterpreter::RNInterpreter()
   ones = new One(1);
 }
 
-int RNInterpreter::interpret(char *input)
+int rn_interpreter::interpret(char *input)
 {
   int total;
   total = 0;
@@ -193,10 +199,13 @@ int RNInterpreter::interpret(char *input)
     return 0;
   return total;
 }
+  
+}
 
 int main()
 {
-  RNInterpreter interpreter;
+  //using namespace tn; 
+  tn::rn_interpreter interpreter;
   char input[20];
   cout << "Enter Roman Numeral: ";
   while (cin >> input)
